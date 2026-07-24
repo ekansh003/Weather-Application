@@ -1,24 +1,27 @@
-# 🌦️ Nimbus
+# 🌤️ Nimbus
 
-A modern real-time weather application built using **React + Vite** that provides real-time weather information, 5-day forecasts, city search with autocomplete, and weather based on your current location using the OpenWeather API.
+A modern **real-time weather application** built with **React + Vite**, featuring a premium glassmorphism UI, live weather updates, hourly and daily forecasts, smart city search, and geolocation support powered by the OpenWeather API.
 
 ---
 
 ## ✨ Features
 
 - 🔍 Search weather by city name
-- 📍 Detect weather using your current location
 - 🌎 Smart city autocomplete suggestions
+- 📍 Get weather using your current location
 - 🌡️ Real-time temperature
+- 🌤️ Weather condition with icon
 - 🤗 Feels Like temperature
 - 💧 Humidity
 - 🌬️ Wind Speed
 - 📊 Atmospheric Pressure
 - 🌅 Sunrise & 🌇 Sunset timings
-- 🕒 Local time of searched city
+- 🕒 Local time of the selected city
+- ⏰ Hourly Weather Forecast
 - 📅 5-Day Weather Forecast
-- 🎨 Dynamic background based on weather conditions
-- 📱 Responsive design
+- 🌙 Modern dark glassmorphism interface
+- 📱 Fully responsive design
+- ⚡ Fast Vite-powered development
 
 ---
 
@@ -26,7 +29,7 @@ A modern real-time weather application built using **React + Vite** that provide
 
 - React
 - Vite
-- JavaScript
+- JavaScript (ES6+)
 - CSS3
 - OpenWeather API
 
@@ -34,18 +37,42 @@ A modern real-time weather application built using **React + Vite** that provide
 
 ## 📂 Project Structure
 
-```
-Weather-Application/
+```text
+Nimbus/
 │
 ├── public/
+│   ├── favicon.ico
+│   ├── android-chrome-192x192.png
+│   ├── android-chrome-512x512.png
+│   ├── apple-touch-icon.png
+│   └── site.webmanifest
+│
 ├── src/
 │   ├── assets/
+│   │
+│   ├── components/
+│   │   ├── Navbar.jsx
+│   │   ├── Navbar.css
+│   │   ├── Hero.jsx
+│   │   ├── Hero.css
+│   │   ├── SearchBar.jsx
+│   │   ├── SearchBar.css
+│   │   ├── WeatherCard.jsx
+│   │   ├── WeatherCard.css
+│   │   ├── WeatherStats.jsx
+│   │   ├── WeatherStats.css
+│   │   ├── HourlyForecast.jsx
+│   │   ├── HourlyForecast.css
+│   │   ├── DailyForecast.jsx
+│   │   └── DailyForecast.css
+│   │
 │   ├── App.jsx
 │   ├── App.css
 │   ├── main.jsx
 │   └── index.css
 │
-├── .env.example
+├── .env
+├── .gitignore
 ├── package.json
 ├── vite.config.js
 └── README.md
@@ -58,13 +85,13 @@ Weather-Application/
 Clone the repository
 
 ```bash
-git clone https://github.com/ekansh003/Weather-Application.git
+git clone https://github.com/ekansh003/Nimbus.git
 ```
 
-Go to the project folder
+Navigate to the project
 
 ```bash
-cd Weather-Application
+cd Nimbus
 ```
 
 Install dependencies
@@ -73,52 +100,59 @@ Install dependencies
 npm install
 ```
 
-Create a `.env` file
+Create a `.env` file in the project root
 
 ```env
-VITE_OPENWEATHER_API_KEY=YOUR_API_KEY
+VITE_OPENWEATHER_API_KEY=YOUR_OPENWEATHER_API_KEY
 ```
 
-Start the development server
+Run the development server
 
 ```bash
 npm run dev
+```
+
+Open:
+
+```
+http://localhost:5173
 ```
 
 ---
 
 ## 🔑 Environment Variables
 
-Create a `.env` file in the project root.
+Create a `.env` file:
 
-```
-VITE_OPENWEATHER_API_KEY=YOUR_API_KEY
+```env
+VITE_OPENWEATHER_API_KEY=YOUR_OPENWEATHER_API_KEY
 ```
 
-You can get your API key from:
+Get your free API key from:
 
 https://openweathermap.org/api
 
 ---
 
-## 📸 Screenshots
+## 🌐 Live Demo
 
-Coming Soon...
+**Vercel Deployment**
+
+> https://nimbus-five-vert.vercel.app/
 
 ---
 
 ## 🔮 Future Improvements
 
-- Dark Mode
-- Weather Maps
-- Air Quality Index (AQI)
-- Hourly Forecast
-- Weather Charts
-- Search History
-- Favorite Cities
-- Animated Weather Icons
-- Better Mobile UI
-- PWA Support
+- 🌍 Air Quality Index (AQI)
+- 🗺️ Weather Maps
+- ⭐ Favorite Cities
+- 📜 Search History
+- 🌧️ Animated Weather Effects
+- 🔔 Severe Weather Alerts
+- 🌐 Multi-language Support
+- 📈 Weather Analytics
+- 📲 Progressive Web App (PWA)
 
 ---
 
@@ -126,11 +160,10 @@ Coming Soon...
 
 **Ekansh Jaiswal**
 
-GitHub:
-https://github.com/ekansh003
+GitHub: https://github.com/ekansh003
 
 ---
 
-## ⭐ Show your support
+## ⭐ Support
 
-If you like this project, consider giving it a ⭐ on GitHub.
+If you found this project useful, consider giving it a ⭐ on GitHub.
