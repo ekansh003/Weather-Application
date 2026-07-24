@@ -1,6 +1,6 @@
-# 🌦️ Weather Application
+# 🌦️ Nimbus
 
-A modern and responsive Weather Application built with **React + Vite** that provides real-time weather information, 5-day forecasts, city search with autocomplete, and weather based on your current location using the OpenWeather API.
+A modern real-time weather application built using **React + Vite** that provides real-time weather information, 5-day forecasts, city search with autocomplete, and weather based on your current location using the OpenWeather API.
 
 ---
 

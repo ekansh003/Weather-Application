@@ -36,7 +36,9 @@ const formatTime = (timestamp, offset) => {
 };
 
 const getLocalTime = (offsetInSeconds) => {
-  const nowUTC = new Date(new Date().getTime() + new Date().getTimezoneOffset() * 60000);
+  const nowUTC = new Date(
+    new Date().getTime() + new Date().getTimezoneOffset() * 60000,
+  );
   const cityTime = new Date(nowUTC.getTime() + offsetInSeconds * 1000);
   return cityTime.toLocaleTimeString("en-US", {
     hour: "2-digit",
@@ -56,12 +58,12 @@ function App() {
     if (!city) return;
     try {
       const weatherRes = await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`
+        `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`,
       );
       const weatherData = await weatherRes.json();
 
       const forecastRes = await fetch(
-        `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${API_KEY}&units=metric`
+        `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${API_KEY}&units=metric`,
       );
       const forecastData = await forecastRes.json();
 
@@ -82,12 +84,12 @@ function App() {
   const fetchWeatherByCoords = async (lat, lon) => {
     try {
       const weatherRes = await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`
+        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`,
       );
       const weatherData = await weatherRes.json();
 
       const forecastRes = await fetch(
-        `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`
+        `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`,
       );
       const forecastData = await forecastRes.json();
 
@@ -114,7 +116,7 @@ function App() {
     }
     try {
       const res = await fetch(
-        `https://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=5&appid=${API_KEY}`
+        `https://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=5&appid=${API_KEY}`,
       );
       const data = await res.json();
       setSuggestions(data);
@@ -132,7 +134,7 @@ function App() {
       },
       (error) => {
         console.error("Location access denied", error);
-      }
+      },
     );
   };
 
@@ -155,7 +157,7 @@ function App() {
         transition: "background 0.5s ease-in-out",
       }}
     >
-      <h1>🌦️ Weather App</h1>
+      <h1>🌦️ Nimbus: Real-Time Weather Forecast</h1>
 
       <div className="input-section">
         <input
@@ -206,7 +208,8 @@ function App() {
 
           <div className="weather-info">
             <p>
-              🌡️ Temp Range: {weather.main.temp_min === weather.main.temp_max
+              🌡️ Temp Range:{" "}
+              {weather.main.temp_min === weather.main.temp_max
                 ? "Not available"
                 : `${weather.main.temp_min}°C - ${weather.main.temp_max}°C`}
             </p>
@@ -214,7 +217,9 @@ function App() {
             <p>💧 Humidity: {weather.main.humidity}%</p>
             <p>📊 Pressure: {weather.main.pressure} hPa</p>
             <p>🌬️ Wind: {weather.wind.speed} m/s</p>
-            <p>🌅 Sunrise: {formatTime(weather.sys.sunrise, weather.timezone)}</p>
+            <p>
+              🌅 Sunrise: {formatTime(weather.sys.sunrise, weather.timezone)}
+            </p>
             <p>🌇 Sunset: {formatTime(weather.sys.sunset, weather.timezone)}</p>
           </div>
 
@@ -224,7 +229,15 @@ function App() {
               <div className="forecast-cards">
                 {forecast.map((day, index) => (
                   <div key={index} className="forecast-card">
-                    <p><strong>{new Date(day.dt_txt).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' })}</strong></p>
+                    <p>
+                      <strong>
+                        {new Date(day.dt_txt).toLocaleDateString(undefined, {
+                          weekday: "short",
+                          month: "short",
+                          day: "numeric",
+                        })}
+                      </strong>
+                    </p>
                     <img
                       src={`https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`}
                       alt={day.weather[0].description}
