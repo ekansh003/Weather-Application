@@ -7,6 +7,7 @@ import WeatherCard from "./components/WeatherCard";
 import WeatherStats from "./components/WeatherStats";
 import DailyForecast from "./components/DailyForecast";
 import HourlyForecast from "./components/HourlyForecast";
+import Footer from "./components/Footer";
 
 console.log("API KEY:", import.meta.env.VITE_OPENWEATHER_API_KEY);
 
@@ -158,32 +159,35 @@ function App() {
   return (
     <div className="app">
       <Navbar />
-      <Hero />
+      <main className="main-content">
+        <Hero />
 
-      <div className="weather-container">
-        <SearchBar
-          city={city}
-          setCity={setCity}
-          fetchWeather={fetchWeather}
-          getCurrentLocation={getCurrentLocation}
-          suggestions={suggestions}
-          showSuggestions={showSuggestions}
-          fetchSuggestions={fetchSuggestions}
-          fetchWeatherByCoords={fetchWeatherByCoords}
-        />
+        <div className="weather-container">
+          <SearchBar
+            city={city}
+            setCity={setCity}
+            fetchWeather={fetchWeather}
+            getCurrentLocation={getCurrentLocation}
+            suggestions={suggestions}
+            showSuggestions={showSuggestions}
+            fetchSuggestions={fetchSuggestions}
+            fetchWeatherByCoords={fetchWeatherByCoords}
+          />
 
-        {weather && (
-          <div className="weather-dashboard">
-            <div className="weather-overview">
-              <WeatherCard weather={weather} getLocalTime={getLocalTime} />
+          {weather && (
+            <div className="weather-dashboard">
+              <div className="weather-overview">
+                <WeatherCard weather={weather} getLocalTime={getLocalTime} />
 
-              <WeatherStats weather={weather} formatTime={formatTime} />
+                <WeatherStats weather={weather} formatTime={formatTime} />
+              </div>
+              <HourlyForecast hourly={hourlyForecast.slice(0, 6)} />
+              <DailyForecast forecast={forecast} />
             </div>
-            <HourlyForecast hourly={hourlyForecast.slice(0, 6)} />
-            <DailyForecast forecast={forecast} />
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      </main>
+      <Footer />
     </div>
   );
 }
