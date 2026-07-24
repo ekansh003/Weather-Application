@@ -8,6 +8,8 @@ import WeatherStats from "./components/WeatherStats";
 import DailyForecast from "./components/DailyForecast";
 import HourlyForecast from "./components/HourlyForecast";
 
+console.log("API KEY:", import.meta.env.VITE_OPENWEATHER_API_KEY);
+
 const API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY;
 
 const getBackground = (condition) => {
