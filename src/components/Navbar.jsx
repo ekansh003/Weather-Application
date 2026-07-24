@@ -8,7 +8,7 @@ function Navbar() {
   return (
     <nav className="navbar">
       <div className="navbar-brand">
-        <div className="navbar-logo">☁️</div>
+        <div className="navbar-logo">🌤️</div>
 
         <div className="brand-text">
           <h1>Nimbus</h1>

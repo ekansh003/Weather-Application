@@ -3,8 +3,6 @@ import "./Hero.css";
 function Hero() {
   return (
     <section className="hero">
-      <span className="hero-badge">☁️ Welcome to Nimbus</span>
-
       <h1 className="hero-title">
         Know the Weather
         <br />

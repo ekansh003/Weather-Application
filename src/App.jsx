@@ -12,28 +12,6 @@ console.log("API KEY:", import.meta.env.VITE_OPENWEATHER_API_KEY);
 
 const API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY;
 
-const getBackground = (condition) => {
-  switch (condition.toLowerCase()) {
-    case "clear":
-      return "linear-gradient(to bottom, #fceabb, #f8b500)";
-    case "clouds":
-      return "linear-gradient(to bottom, #d7d2cc, #304352)";
-    case "rain":
-      return "linear-gradient(to bottom, #314755, #26a0da)";
-    case "snow":
-      return "linear-gradient(to bottom, #e6dada, #274046)";
-    case "thunderstorm":
-      return "linear-gradient(to bottom, #373B44, #4286f4)";
-    case "drizzle":
-      return "linear-gradient(to bottom, #89f7fe, #66a6ff)";
-    case "mist":
-    case "fog":
-      return "linear-gradient(to bottom, #bdc3c7, #2c3e50)";
-    default:
-      return "linear-gradient(to bottom, #a1c4fd, #c2e9fb)";
-  }
-};
-
 const formatTime = (timestamp, offset) => {
   const localTime = new Date((timestamp + offset) * 1000);
   return localTime.toLocaleTimeString("en-US", {
@@ -178,13 +156,7 @@ function App() {
   };
 
   return (
-    <div
-      className="app"
-      style={{
-        background: weather ? getBackground(weather.weather?.[0]?.main) : "",
-        transition: "background 0.5s ease-in-out",
-      }}
-    >
+    <div className="app">
       <Navbar />
       <Hero />
 

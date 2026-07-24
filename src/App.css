@@ -2,7 +2,7 @@
 body {
   margin: 0;
   font-family: "Poppins", sans-serif;
-  background: linear-gradient(to bottom, #a1c4fd, #c2e9fb);
+  background: #d9eaff;
   min-height: 100vh;
 }
 
@@ -15,6 +15,7 @@ body {
   min-height: 100vh;
   padding: 20px;
   color: #222;
+  background: #0F0F11;
 }
 
 .weather-container {
