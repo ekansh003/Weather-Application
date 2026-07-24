@@ -94,8 +94,8 @@ function HourlyForecast({ hourly }) {
                 y1={point.y + 3}
                 x2={point.x}
                 y2="92"
-                stroke="rgba(255,255,255,.12)"
-                strokeWidth="0.45"
+                stroke="rgba(255,255,255,0.10)"
+                strokeWidth="0.30"
               />
             ))}
           </svg>
