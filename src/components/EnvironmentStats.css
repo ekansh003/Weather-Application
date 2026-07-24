@@ -1,0 +1,76 @@
+.environment-section {
+  width: 100%;
+  max-width: 1200px;
+  margin: 35px auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.environment-card {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.08),
+    rgba(255, 255, 255, 0.05)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  transition: 0.35s ease;
+  box-shadow: 0 18px 35px rgba(0, 0, 0, 0.25);
+}
+
+.environment-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(91, 108, 255, 0.45);
+  box-shadow: 0 20px 45px rgba(91, 108, 255, 0.18);
+}
+
+.env-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.env-icon {
+  font-size: 1.25rem;
+}
+
+.uv {
+  color: #ffc83d;
+}
+
+.aqi {
+  color: #6eeb83;
+}
+
+.visibility {
+  color: #73d7ff;
+}
+
+.environment-card h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: white;
+  font-weight: 600;
+}
+
+.environment-card p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 0.95rem;
+}
+
+@media (max-width: 900px) {
+  .environment-section {
+    grid-template-columns: 1fr;
+  }
+}

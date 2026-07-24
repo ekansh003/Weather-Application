@@ -5,8 +5,10 @@ import Hero from "./components/Hero";
 import SearchBar from "./components/SearchBar";
 import WeatherCard from "./components/WeatherCard";
 import WeatherStats from "./components/WeatherStats";
-import DailyForecast from "./components/DailyForecast";
 import HourlyForecast from "./components/HourlyForecast";
+import EnvironmentStats from "./components/EnvironmentStats";
+import DailyForecast from "./components/DailyForecast";
+
 import Footer from "./components/Footer";
 
 console.log("API KEY:", import.meta.env.VITE_OPENWEATHER_API_KEY);
@@ -42,6 +44,8 @@ function App() {
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [hourlyForecast, setHourlyForecast] = useState([]);
+  const [airQuality, setAirQuality] = useState(null);
+  const [uvIndex, setUvIndex] = useState(null);
 
   const fetchWeather = async () => {
     if (!city) return;
@@ -58,6 +62,8 @@ function App() {
 
       if (weatherData.cod === 200 && forecastData.cod === "200") {
         setWeather(weatherData);
+        fetchAirQuality(weatherData.coord.lat, weatherData.coord.lon);
+        fetchUVIndex(weatherData.coord.lat, weatherData.coord.lon);
         setHourlyForecast(forecastData.list);
         setForecast(filterDailyForecast(forecastData.list));
         setShowSuggestions(false);
@@ -68,6 +74,35 @@ function App() {
       }
     } catch (error) {
       console.error("Fetch error:", error);
+    }
+  };
+
+  const fetchUVIndex = async (lat, lon) => {
+    try {
+      const res = await fetch(
+        `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=uv_index`,
+      );
+
+      const data = await res.json();
+
+      setUvIndex(data.current?.uv_index ?? null);
+    } catch (err) {
+      console.error("Error fetching UV:", err);
+      setUvIndex(null);
+    }
+  };
+
+  const fetchAirQuality = async (lat, lon) => {
+    try {
+      const res = await fetch(
+        `https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`,
+      );
+
+      const data = await res.json();
+
+      setAirQuality(data);
+    } catch (error) {
+      console.error("Error fetching AQI:", error);
     }
   };
 
@@ -85,6 +120,8 @@ function App() {
 
       if (weatherData.cod === 200 && forecastData.cod === "200") {
         setWeather(weatherData);
+        fetchAirQuality(weatherData.coord.lat, weatherData.coord.lon);
+        fetchUVIndex(weatherData.coord.lat, weatherData.coord.lon);
         setHourlyForecast(forecastData.list);
         setForecast(filterDailyForecast(forecastData.list));
         setCity(weatherData.name);
@@ -182,6 +219,11 @@ function App() {
                 <WeatherStats weather={weather} formatTime={formatTime} />
               </div>
               <HourlyForecast hourly={hourlyForecast.slice(0, 6)} />
+              <EnvironmentStats
+                weather={weather}
+                airQuality={airQuality}
+                uvIndex={uvIndex}
+              />
               <DailyForecast forecast={forecast} />
             </div>
           )}

@@ -89,7 +89,7 @@
 .forecast-track {
   position: relative;
   width: 100%;
-  height: 7px;
+  height: 4px;
   border-radius: 999px;
   overflow: hidden;
   background: linear-gradient(to right, #63cfff, #7ed8ff, #ffd54d, #ff8a3d);
