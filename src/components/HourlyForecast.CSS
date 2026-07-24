@@ -45,7 +45,7 @@
 .hour-item {
   display: grid;
   grid-template-rows:
-    40px /* Temp */
+    40px
     48px /* Icon */
     22px; /* Rain */
   justify-items: center;
