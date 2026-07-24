@@ -22,10 +22,7 @@ function Navbar() {
           title="GitHub Repository"
           aria-label="GitHub Repository"
           onClick={() =>
-            window.open(
-              "https://github.com/ekansh003/Weather-Application",
-              "_blank",
-            )
+            window.open("https://github.com/ekansh003/nimbus", "_blank")
           }
         >
           <FaGithub />
