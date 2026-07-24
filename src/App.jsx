@@ -2,6 +2,11 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
+import SearchBar from "./components/SearchBar";
+import WeatherCard from "./components/WeatherCard";
+import WeatherStats from "./components/WeatherStats";
+import DailyForecast from "./components/DailyForecast";
+import HourlyForecast from "./components/HourlyForecast";
 
 const API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY;
 
@@ -55,6 +60,7 @@ function App() {
   const [forecast, setForecast] = useState([]);
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [hourlyForecast, setHourlyForecast] = useState([]);
 
   const fetchWeather = async () => {
     if (!city) return;
@@ -71,6 +77,7 @@ function App() {
 
       if (weatherData.cod === 200 && forecastData.cod === "200") {
         setWeather(weatherData);
+        setHourlyForecast(forecastData.list);
         setForecast(filterDailyForecast(forecastData.list));
         setShowSuggestions(false);
       } else {
@@ -97,6 +104,7 @@ function App() {
 
       if (weatherData.cod === 200 && forecastData.cod === "200") {
         setWeather(weatherData);
+        setHourlyForecast(forecastData.list);
         setForecast(filterDailyForecast(forecastData.list));
         setCity(weatherData.name);
         setShowSuggestions(false);
@@ -140,15 +148,31 @@ function App() {
     );
   };
 
-  const filterDailyForecast = (data) => {
-    const daily = {};
-    data.forEach((item) => {
+  const filterDailyForecast = (list) => {
+    const grouped = {};
+
+    list.forEach((item) => {
       const date = item.dt_txt.split(" ")[0];
-      if (!daily[date] && item.dt_txt.includes("12:00:00")) {
-        daily[date] = item;
+
+      if (!grouped[date]) {
+        grouped[date] = [];
       }
+
+      grouped[date].push(item);
     });
-    return Object.values(daily);
+
+    return Object.values(grouped).map((items) => {
+      const noonForecast =
+        items.find((item) => item.dt_txt.includes("12:00:00")) || items[0];
+
+      return {
+        ...noonForecast,
+
+        minTemp: Math.round(Math.min(...items.map((i) => i.main.temp_min))),
+
+        maxTemp: Math.round(Math.max(...items.map((i) => i.main.temp_max))),
+      };
+    });
   };
 
   return (
@@ -163,98 +187,26 @@ function App() {
       <Hero />
 
       <div className="weather-container">
-        <div className="input-section">
-          <input
-            type="text"
-            placeholder="Enter city name"
-            value={city}
-            onChange={(e) => {
-              const value = e.target.value;
-              setCity(value);
-              fetchSuggestions(value);
-            }}
-          />
-          <button onClick={fetchWeather}>Search</button>
-
-          {showSuggestions && suggestions.length > 0 && (
-            <ul className="suggestions-list">
-              <li onClick={getCurrentLocation} className="suggestion-option">
-                📍 Use My Current Location
-              </li>
-              {suggestions.map((item) => (
-                <li
-                  key={`${item.name}-${item.lat}-${item.lon}`}
-                  className="suggestion-option"
-                  onClick={() => fetchWeatherByCoords(item.lat, item.lon)}
-                >
-                  {item.name}, {item.state ? item.state + ", " : ""}
-                  {item.country}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+        <SearchBar
+          city={city}
+          setCity={setCity}
+          fetchWeather={fetchWeather}
+          getCurrentLocation={getCurrentLocation}
+          suggestions={suggestions}
+          showSuggestions={showSuggestions}
+          fetchSuggestions={fetchSuggestions}
+          fetchWeatherByCoords={fetchWeatherByCoords}
+        />
 
         {weather && (
           <div className="weather-dashboard">
-            <div className="weather-main">
-              <h2>
-                {weather.name}, {weather.sys.country}
-              </h2>
-              <p>🕒 Local Time: {getLocalTime(weather.timezone)}</p>
-              <img
-                src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
-                alt={`Weather icon for ${weather.weather[0].description}`}
-              />
-              <p className="condition">{weather.weather[0].main}</p>
-              <h3>{weather.main.temp} °C</h3>
-            </div>
+            <div className="weather-overview">
+              <WeatherCard weather={weather} getLocalTime={getLocalTime} />
 
-            <div className="weather-info">
-              <p>
-                🌡️ Temp Range:{" "}
-                {weather.main.temp_min === weather.main.temp_max
-                  ? "Not available"
-                  : `${weather.main.temp_min}°C - ${weather.main.temp_max}°C`}
-              </p>
-              <p>🌡️ Feels Like: {weather.main.feels_like} °C</p>
-              <p>💧 Humidity: {weather.main.humidity}%</p>
-              <p>📊 Pressure: {weather.main.pressure} hPa</p>
-              <p>🌬️ Wind: {weather.wind.speed} m/s</p>
-              <p>
-                🌅 Sunrise: {formatTime(weather.sys.sunrise, weather.timezone)}
-              </p>
-              <p>
-                🌇 Sunset: {formatTime(weather.sys.sunset, weather.timezone)}
-              </p>
+              <WeatherStats weather={weather} formatTime={formatTime} />
             </div>
-
-            {forecast.length > 0 && (
-              <div className="forecast-section">
-                <h3>📅 5-Day Forecast</h3>
-                <div className="forecast-cards">
-                  {forecast.map((day, index) => (
-                    <div key={index} className="forecast-card">
-                      <p>
-                        <strong>
-                          {new Date(day.dt_txt).toLocaleDateString(undefined, {
-                            weekday: "short",
-                            month: "short",
-                            day: "numeric",
-                          })}
-                        </strong>
-                      </p>
-                      <img
-                        src={`https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`}
-                        alt={day.weather[0].description}
-                      />
-                      <p>{day.main.temp}°C</p>
-                      <p>{day.weather[0].main}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+            <HourlyForecast hourly={hourlyForecast.slice(0, 6)} />
+            <DailyForecast forecast={forecast} />
           </div>
         )}
       </div>
